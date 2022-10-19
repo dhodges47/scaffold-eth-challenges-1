@@ -38,6 +38,14 @@ export const NETWORKS = {
     faucet: "https://faucet.rinkeby.io/",
     blockExplorer: "https://rinkeby.etherscan.io/",
   },
+  sepolia: {
+    name: "sepolia",
+    color: "#e0d068",
+    chainId: 11155111,
+    rpcUrl: `https://sepolia.infura.io/v3/${INFURA_ID}`,
+    faucet: "https://faucet.sepolia.dev/",
+    blockExplorer: "https://sepolia.etherscan.io/",
+  },
   ropsten: {
     name: "ropsten",
     color: "#F60D09",

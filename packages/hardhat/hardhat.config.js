@@ -92,6 +92,12 @@ module.exports = {
         mnemonic: mnemonic(),
       },
     },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/ec6a8acd1d354717acec099ad46a0bab`,
+      accounts: {
+        mnemonic: mnemonic(),
+      },
+    },
     xdai: {
       url: "https://rpc.xdaichain.com/",
       gasPrice: 1000000000,
