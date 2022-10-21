@@ -1,6 +1,6 @@
 // deploy/00_deploy_example_external_contract.js
 
-const { ethers } = require("hardhat");
+//const { ethers } = require("hardhat");
 
 module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deploy } = deployments;
@@ -14,7 +14,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
   });
 
-  const exampleExternalContract = await ethers.getContract("ExampleExternalContract");
+  //const exampleExternalContract = await ethers.getContract("ExampleExternalContract");
 
   // Getting a previously deployed contract
   // const ExampleExternalContract = await ethers.getContract(
