@@ -21,7 +21,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   //Todo: transfer the tokens to the vendor
   console.log("\n 🏵  Sending all 1000 tokens to the vendor...\n");
-  
+  console.log(vendor.address);
   const transferTransaction = await yourToken.transfer(
     vendor.address,
     ethers.utils.parseEther("1000")
@@ -32,7 +32,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   // ToDo: change address to your frontend address vvvv
  console.log("\n 🤹  Sending ownership to frontend address...\n")
-  const ownershipTransaction = await vendor.transferOwnership(0x9437b1Fd35f280bcFBAd08e7b2b3370C133B5009);
+  const ownershipTransaction = await vendor.transferOwnership('0x35cF55c896c04759BcE55fB32224911767Fb4aD6');
  console.log("\n    ✅ confirming...\n");
  const ownershipResult = await ownershipTransaction.wait();
 
