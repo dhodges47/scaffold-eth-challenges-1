@@ -483,6 +483,8 @@ function App(props) {
 
   const buyTokensEvents = useEventListener(readContracts, "Vendor", "BuyTokens", localProvider, 1);
   console.log("📟 buyTokensEvents:", buyTokensEvents);
+  const withdrawEvents = useEventListener(readContracts, "Vendor", "Withdraw", localProvider, 1);
+  console.log("📟 withdrawEvents:", withdrawEvents);
 
   const [tokenBuyAmount, setTokenBuyAmount] = useState({
     valid: false,
@@ -637,7 +639,7 @@ function App(props) {
                 </div>
               </Card>
             </div>
-            {/*Extra UI for buying the tokens back from the user using "approve" and "sellTokens"
+             Extra UI for buying the tokens back from the user using "approve" and "sellTokens"
 
             <Divider />
             <div style={{ padding: 8, marginTop: 32, width: 300, margin: "auto" }}>
@@ -714,7 +716,7 @@ function App(props) {
 
               </Card>
             </div>
-            */}
+          
             <div style={{ padding: 8, marginTop: 32 }}>
               <div>Vendor Token Balance:</div>
               <Balance balance={vendorTokenBalance} fontSize={64} />
@@ -742,6 +744,22 @@ function App(props) {
                 }}
               />
             </div>
+            <div style={{ width: 500, margin: "auto", marginTop: 64 }}>
+              <div>Withdraw Events:</div>
+              <List
+                dataSource={withdrawEvents}
+                renderItem={item => {
+                  return (
+                    <List.Item key={item.blockNumber + item.blockHash}>
+                      <Address value={item.args[0]} ensProvider={mainnetProvider} fontSize={16} /> owner
+                      <Balance balance={item.args[1]} />
+                      ETH withdrawn
+                    </List.Item>
+                  );
+                }}
+              />
+            </div>
+
 
             {/*
 

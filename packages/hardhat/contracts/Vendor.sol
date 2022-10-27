@@ -7,6 +7,7 @@ import "./YourToken.sol";
 contract Vendor is Ownable {
     event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
     event Withdraw(address owner, uint256 amountOfETH);
+    event Transfer(address sender, address recipient, uint256 amountOfETH);
 
     YourToken public yourToken;
 
@@ -42,5 +43,10 @@ contract Vendor is Ownable {
         to.transfer(ethamt);
         emit Withdraw(msg.sender, ethamt);
     }
+
     // ToDo: create a sellTokens(uint256 _amount) function:
+    function sellTokens(uint256 _amount) public {
+        yourToken.transferFrom(msg.sender, address(this), _amount);
+        emit Transfer(msg.sender, address(this), _amount);
+    }
 }
