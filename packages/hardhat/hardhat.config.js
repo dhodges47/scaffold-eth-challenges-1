@@ -25,7 +25,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "localhost";
+const defaultNetwork = "goerli";
 
 const mainnetGwei = 115;
 
@@ -94,6 +94,8 @@ module.exports = {
       accounts: {
         mnemonic: mnemonic(),
       },
+      gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
+    
     },
     xdai: {
       url: "https://rpc.xdaichain.com/",
