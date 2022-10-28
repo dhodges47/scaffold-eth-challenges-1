@@ -8,6 +8,11 @@ contract Vendor is Ownable {
     event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
     event Withdraw(address owner, uint256 amountOfETH);
     event Transfer(address sender, address recipient, uint256 amountOfETH);
+    event SellTokens(
+        address seller,
+        uint256 amountOfETH,
+        uint256 amountOfTokens
+    );
 
     YourToken public yourToken;
 
@@ -34,19 +39,48 @@ contract Vendor is Ownable {
     }
 
     // ToDo: create a withdraw() function that lets the owner withdraw ETH
-    function withdraw(uint256 ethamt)
+    function withdraw()
         public
         onlyOwner
-        CheckEthInContract(ethamt)
+        //CheckEthInContract(ethamt)
     {
-        address payable to = payable(msg.sender);
-        to.transfer(ethamt);
-        emit Withdraw(msg.sender, ethamt);
+        uint ethBalance = address(this).balance;
+        (bool success, ) = msg.sender.call{value: ethBalance}("");
+         require( success, "FAILED");
+        emit Withdraw(msg.sender, ethBalance);
     }
 
-    // ToDo: create a sellTokens(uint256 _amount) function:
-    function sellTokens(uint256 _amount) public {
-        yourToken.transferFrom(msg.sender, address(this), _amount);
-        emit Transfer(msg.sender, address(this), _amount);
+  
+    function sellTokens(uint256 amount) public {
+        require(amount > 0, "Specify the amount you want to sell");
+
+        require(
+            yourToken.allowance(msg.sender, address(this)) >= amount,
+            "Token allowance too low"
+        );
+        uint256 payout = amount / tokensPerEth;
+
+        require(
+            address(this).balance >= payout,
+            "not enough ETH in the contract, try later"
+        );
+        // should not send user eth before tokens get transferred
+
+        (bool success, ) = msg.sender.call{value: payout}("");
+
+        require(success, "FAILED");
+        _safeTransferFrom(yourToken, msg.sender, address(this), amount);
+
+        emit SellTokens(msg.sender, payout, amount);
+    }
+
+    function _safeTransferFrom(
+        IERC20 token,
+        address sender,
+        address recipient,
+        uint amount
+    ) private {
+        bool sent = token.transferFrom(sender, recipient, amount);
+        require(sent, "Token transfer failed");
     }
 }
