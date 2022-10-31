@@ -94,8 +94,8 @@ module.exports = {
       accounts: {
         mnemonic: mnemonic(),
       },
-      gasPrice: 8000000000, // default is 'auto' which breaks chains without the london hardfork
-    
+      gasPrice: 24658634825, // default is 'auto' which breaks chains without the london hardfork
+                
     },
     xdai: {
       url: "https://rpc.xdaichain.com/",

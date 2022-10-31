@@ -39,15 +39,14 @@ contract Vendor is Ownable {
     }
 
     // ToDo: create a withdraw() function that lets the owner withdraw ETH
-    function withdraw()
-        public
-        onlyOwner
-        //CheckEthInContract(ethamt)
+    function withdraw() public onlyOwner 
     {
-        uint ethBalance = address(this).balance;
-        (bool success, ) = msg.sender.call{value: ethBalance}("");
-         require( success, "FAILED");
-        emit Withdraw(msg.sender, ethBalance);
+       uint256 ownerBalance = address(this).balance;
+        require(ownerBalance > 0, "Owner has not balance to withdraw");
+
+        (bool sent,) = msg.sender.call{value: address(this).balance}("");
+         require(sent, "Failed to send user balance back to the owner");
+        emit Withdraw(msg.sender, ownerBalance);
     }
 
   

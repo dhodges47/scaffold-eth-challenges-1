@@ -1,24 +1,35 @@
 // deploy/00_deploy_your_contract.js
-
+const {BigNumber} = require( '@ethersproject/bignumber');
 const { ethers } = require("hardhat");
 
 module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
+ const feedata = await  ethers.provider.getFeeData();
+ const gasfee = feedata.gasPrice.toString();
+ const maxfeepergas = feedata.maxFeePerGas.toString();
+ const maxriorityfeePerGas = feedata.maxPriorityFeePerGas.toString();
+ console.log(gasfee);
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
-
+  console.log("\n 🏵 Deploying...\n");
   await deploy("YourToken", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     // args: [ "Hello", ethers.utils.parseEther("1.5") ],
     log: true,
+      gasPrice: feedata.gasPrice
+   // maxFeePerGas: feedata.maxFeePerGas,
+   // maxPriorityFeePerGas: feedata.maxPriorityFeePerGas,
+  
+    
   });
-
+  console.log("\n 🏵 Deployed...\n");
+  await sleep(5000);
   const yourToken = await ethers.getContract("YourToken", deployer);
 
   // Todo: transfer tokens to frontend address
   const result = await yourToken.transfer("0x35cF55c896c04759BcE55fB32224911767Fb4aD6", ethers.utils.parseEther("1000") );
-
+  await sleep(5000);
   // ToDo: To take ownership of yourContract using the ownable library uncomment next line and add the
   // address you want to be the owner.
   // yourContract.transferOwnership(YOUR_ADDRESS_HERE);
